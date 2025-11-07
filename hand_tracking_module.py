@@ -18,17 +18,17 @@ class handDetector():
             min_tracking_confidence=self.trackCon
         )
         self.mpDraw = mp.solutions.drawing_utils
-        self.hand_landmark_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)
-        self.hand_connection_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)
+        self.hand_landmark_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=0, circle_radius=0)
+        self.hand_connection_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=1)
 
 
     def findHands(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        results = self.hands.process(imgRGB)
+        self.results = self.hands.process(imgRGB)
 
-        if results.multi_hand_landmarks:
-            for handLms in results.multi_hand_landmarks:
+        if self.results.multi_hand_landmarks:
+            for handLms in self.results.multi_hand_landmarks:
                 if draw:
                     self.mpDraw.draw_landmarks(
                         img, 
@@ -38,20 +38,27 @@ class handDetector():
                         self.hand_connection_style)
 
         return img
+    
 
+    def findPosition(self, img, handNo=0, draw=True):
+        lmList = []
+        if self.results.multi_hand_landmarks:
+            my_hand=self.results.multi_hand_landmarks[handNo]
             
-# for id, lm in enumerate(handLms.landmark):
-#                     print(id, lm) #prin the landmarks
-#                     height, width, channel = img.shape
-#                     cx, cy = int(lm.x * width), int(lm.y * height)
-                    
-#                     print(id, cx, cy)
+            
+            
+            for id, lm in enumerate(my_hand.landmark):
+                print(id, lm) #prin the landmarks
+                height, width, channel = img.shape
+                cx, cy = int(lm.x * width), int(lm.y * height)
+                
+                lmList.append([id, cx, cy])
 
-#                     if id == 4:
-#                         cv2.circle(img, (cx,cy), 15, (255,0,255), cv2.FILLED)
+                if draw:
+                    cv2.circle(img, (cx,cy), 15, (255,0,255), cv2.FILLED)
 
 
-
+        return lmList
 
 
 def main():
@@ -65,6 +72,10 @@ def main():
         success, img = cap.read()
 
         img = detector.findHands(img)
+
+        lmList = detector.findPosition(img)
+        if len(lmList) != 0:
+            print(lmList[4])
         
         cTime = time.time()
         fps = 1/(cTime-pTime)
