@@ -12,3 +12,7 @@ Palm detection works on Complete Image and it basically provides a cropped image
 As Hand Landmark find 21 Landmarks on that cropped image of the hand
 
 ![alt text](hand-landmarks.png)
+
+
+### hand tracking image result
+![alt text]({F7B11D64-9D11-4F2A-B45D-DCE487347662}.png)

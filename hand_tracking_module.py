@@ -18,7 +18,7 @@ class handDetector():
             min_tracking_confidence=self.trackCon
         )
         self.mpDraw = mp.solutions.drawing_utils
-        self.hand_landmark_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=0, circle_radius=0)
+        self.hand_landmark_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=1)
         self.hand_connection_style = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=1)
 
 
@@ -55,7 +55,7 @@ class handDetector():
                 lmList.append([id, cx, cy])
 
                 if draw:
-                    cv2.circle(img, (cx,cy), 15, (255,0,255), cv2.FILLED)
+                    cv2.circle(img, (cx,cy), 7, (255, 0, 0), cv2.FILLED)
 
 
         return lmList
