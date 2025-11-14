@@ -4,6 +4,9 @@ import time
 
 
 mpDraw = mp.solutions.drawing_utils
+pose_landmark_style = mpDraw.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2)
+pose_connection_style = mpDraw.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2)
+
 mpPose = mp.solutions.pose
 
 pose = mpPose.Pose()
@@ -24,7 +27,12 @@ while True:
     results = pose.process(imgRGB)
     #print(results.pose_landmarks)
     if results.pose_landmarks:
-        mpDraw.draw_landmarks(img, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
+        mpDraw.draw_landmarks(
+            img, 
+            results.pose_landmarks, 
+            mpPose.POSE_CONNECTIONS,
+            pose_landmark_style,
+            pose_connection_style)
 
 
     
