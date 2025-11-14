@@ -40,9 +40,9 @@ while True:
         
         for id, lm in enumerate(results.pose_landmarks.landmark):
             height, width, channel = img.shape
-            print(id, lm)
+            #print(id, lm)
             cx, cy = int(lm.x* width), int(lm.y*height)
-            cv2.circle(img, (cx, cy), 5, (255,0,0), cv2.FILLED)
+            #cv2.circle(img, (cx, cy), 5, (255,0,0), cv2.FILLED)
 
 
 
