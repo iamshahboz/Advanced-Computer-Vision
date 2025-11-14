@@ -4,7 +4,7 @@ import time
 
 
 mpDraw = mp.solutions.drawing_utils
-pose_landmark_style = mpDraw.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2)
+pose_landmark_style = mpDraw.DrawingSpec(color=(0, 0, 255), thickness=2, circle_radius=2)
 pose_connection_style = mpDraw.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2)
 
 mpPose = mp.solutions.pose
@@ -14,13 +14,17 @@ pose = mpPose.Pose()
 
 cap = cv2.VideoCapture('PoseVideos/2.mp4')
 
-cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Image", 960, 540)   # adjust as needed
+# cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+# cv2.resizeWindow("Image", 960, 540)   # adjust as needed
 
 pTime = 0
 
 while True:
     success, img = cap.read()
+
+    if not success:
+        print('End of video, bye')
+        break
 
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
@@ -33,6 +37,14 @@ while True:
             mpPose.POSE_CONNECTIONS,
             pose_landmark_style,
             pose_connection_style)
+        
+        for id, lm in enumerate(results.pose_landmarks.landmark):
+            height, width, channel = img.shape
+            print(id, lm)
+            cx, cy = int(lm.x* width), int(lm.y*height)
+            cv2.circle(img, (cx, cy), 5, (255,0,0), cv2.FILLED)
+
+
 
 
     
