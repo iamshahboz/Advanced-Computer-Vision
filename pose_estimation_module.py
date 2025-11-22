@@ -36,24 +36,29 @@ class poseDetector():
 
     def findPose(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        results = self.pose.process(imgRGB)
+        self.results = self.pose.process(imgRGB)
 
-        if results.pose_landmarks:
+        if self.results.pose_landmarks:
             if draw:
                 self.mpDraw.draw_landmarks(
                     img, 
-                    results.pose_landmarks, 
+                    self.results.pose_landmarks, 
                     self.mpPose.POSE_CONNECTIONS,
                     self.pose_landmark_style,
                     self.pose_connection_style)
                 
         return img
-        
-        # for id, lm in enumerate(results.pose_landmarks.landmark):
-        #     height, width, channel = img.shape
-        #     #print(id, lm)
-        #     cx, cy = int(lm.x* width), int(lm.y*height)
-        #     #cv2.circle(img, (cx, cy), 5, (255,0,0), cv2.FILLED)
+    
+    def findPosition(self, img, draw=True):
+        lmList = []
+        if self.results.pose_landmarks:
+            for id, lm in enumerate(self.results.pose_landmarks.landmark):
+                height, width, channel = img.shape
+                cx, cy = int(lm.x* width), int(lm.y*height)
+                lmList.append([id, cx, cy])
+                if draw:
+                    cv2.circle(img, (cx, cy), 5, (255,0,0), cv2.FILLED)
+        return lmList
 
 
 
@@ -75,6 +80,10 @@ def main():
             break
 
         img = detector.findPose(img)
+        lmList = detector.findPosition(img)
+        #lmList = detector.findPosition(img, False)
+        print(lmList[14])
+        #cv2.circle(img, (lmList[14][1], lmList[14][2]), 15, (0, 0, 255), cv2.FILLED)
 
         cTime = time.time()
         fps = 1/(cTime-pTime)
@@ -89,7 +98,10 @@ def main():
 
         
 
-    
+'''
+now lets say we want the landmark number 14
+
+'''    
 
 
 if __name__ == "__main__":
