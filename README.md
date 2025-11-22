@@ -14,8 +14,6 @@ As Hand Landmark find 21 Landmarks on that cropped image of the hand
 ![alt text](hand-landmarks.png)
 
 
-### hand tracking image result
-![alt text]({F7B11D64-9D11-4F2A-B45D-DCE487347662}.png)
 
 
 #### Pose tracking
@@ -25,8 +23,6 @@ Pose landmarks
 ![alt text](Pose-Landmarker-Model-1024x517.jpg)
 
 
-### Pose estimation image result
-![alt text]({294D4354-2DDC-4C0E-8926-3734947ABF71}.png)
 
 
 
